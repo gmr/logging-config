@@ -12,22 +12,22 @@ check out http://docs.python.org/library/logging.config.html#logging-config-dict
 Example Config
 --------------
 
-  {'loggers': {'pika': {'propagate': True, 'level': 'INFO'},
-               'tinman': {'propagate': True, 'level': 'INFO'}},
-   'formatters': {'syslog': ('%(levelname)s <PID %(process)d:%(processName)s> '
-                             '%(name).%(funcName)s: %(message)s'),
-                  'verbose': ('%(levelname) -10s %(asctime)s %(name) -30s '
-                              '%(funcName) -25s: %(message)s')},
-   'filters': None,
-   'handlers': {'syslog': {'facility': 'local6',
-                           'level': 'INFO',
-                           'formatter': 'syslog',
-                           'class': 'logging.handlers.SysLogHandler',
-                           'address': '/var/run/syslog'},
-                'console': {'formatter': 'verbose',
-                            'debug_only': True,
-                            'class': 'logging.StreamHandler',
-                            'level': 'DEBUG'}}}
+    {'loggers': {'pika': {'propagate': True, 'level': 'INFO'},
+                 'tinman': {'propagate': True, 'level': 'INFO'}},
+     'formatters': {'syslog': ('%(levelname)s <PID %(process)d:%(processName)s> '
+                               '%(name).%(funcName)s: %(message)s'),
+                    'verbose': ('%(levelname) -10s %(asctime)s %(name) -30s '
+                                '%(funcName) -25s: %(message)s')},
+     'filters': None,
+     'handlers': {'syslog': {'facility': 'local6',
+                             'level': 'INFO',
+                             'formatter': 'syslog',
+                             'class': 'logging.handlers.SysLogHandler',
+                             'address': '/var/run/syslog'},
+                  'console': {'formatter': 'verbose',
+                              'debug_only': True,
+                              'class': 'logging.StreamHandler',
+                              'level': 'DEBUG'}}}
 
 Example use
 -----------
