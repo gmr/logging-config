@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+loggers:
+  pika:
+    level: INFO
+    propagate: True
+  tinman:
+    level: INFO
+    propagate: True
+filters:
+formatters:
+  verbose: "%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -25s: %(message)s"
+  syslog: "%(levelname)s <PID %(process)d:%(processName)s> %(name).%(funcName)s: %(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: verbose
+    debug_only: True
+    level: DEBUG
+  syslog:
+    class: logging.handlers.SysLogHandler
+    facility: local6
+    address: /var/run/syslog
+    formatter: syslog
+    level: INFO
+
