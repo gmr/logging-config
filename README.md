@@ -5,6 +5,8 @@ A configuration wrapper class for the standard Python logging package. Since
 DictConfigurator is not available until 2.7 and I still need to support 2.6,
 I wanted a consistent way to handle configuration of application logging.
 
+Currently, this module passes tests in Python 2.5, 2.6 and 2.7.
+
 I've attempted to match the configuration dictionary schema as much as it makes
 sense to do so.  For more information on the configuration dictionary schema
 check out http://docs.python.org/library/logging.config.html#logging-config-dictschema
