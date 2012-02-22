@@ -21,16 +21,14 @@ Example configuration YAML definition object:
 __author__ = 'Gavin M. Roy'
 __email__ = 'gmr@myyearbook.com'
 __date__ = '2012-01-20'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
-import hashlib
 import logging
 from logging.handlers import SysLogHandler
-import io
-import weakref
 
 _ADDRESS = 'address'
 _ARGS_IGNORE = ['class', 'formatter', 'filters', 'level', 'debug_only']
+_CAPACITY = 1048576
 _CLASS = 'class'
 _DEBUG_ONLY = 'debug_only'
 _DEFAULT_LEVEL = logging.INFO
@@ -67,6 +65,9 @@ class Logging(object):
     logging.config.DictConfig functionality in Python 2.7.
 
     """
+    # Used for Python 2.5+
+    _HANDLERS = dict()
+
     def __init__(self, config, debug=False):
         """Create a new instance of the logging object.
 
@@ -80,7 +81,6 @@ class Logging(object):
         self._handlers = list()
 
         # Setup the internal stream handler and logger
-        self._stream = self._new_stream()
         self._handler = self._internal_handler()
         self._logger = logging.getLogger('logging_config')
         self._setup_internal_handler()
@@ -97,7 +97,7 @@ class Logging(object):
 
         """
         handler_names = self._get_handler_names(logger)
-        if handler.get_name() not in handler_names:
+        if self._get_handler_name(handler) not in handler_names:
             logger.addHandler(handler)
         if isinstance(logger, logging.Logger) and level:
             logger.setLevel(self._get_level(level))
@@ -150,6 +150,19 @@ class Logging(object):
         """
         return logging.getLogger(None if logger == 'root' else logger)
 
+    def _get_handler_name(self, handler):
+        """Get the handler name for the specified handler.
+
+        :param logging.Handler handler: The handler
+        :return: str
+
+        """
+        try:
+            return handler.get_name()
+        except AttributeError:
+            if handler in Logging._HANDLERS:
+                return Logging._HANDLERS[handler]
+
     def _get_handler_names(self, logger):
         """Return a list of handlers for the given logger.
 
@@ -159,7 +172,7 @@ class Logging(object):
         """
         out = list()
         for handler in logger.handlers:
-            out.append(handler.get_name())
+            out.append(self._get_handler_name(handler))
         return out
 
     def _get_level(self, level_name):
@@ -170,7 +183,7 @@ class Logging(object):
 
         """
         self._logger.debug('Fetching constant mapping for %s', level_name)
-        return logging._levelNames.get(level_name, logging.INFO)
+        return logging._levelNames[level_name]
 
     def _get_logger_name(self, class_handle, arguments):
         """Get a logger name for when we are creating a logger.
@@ -189,10 +202,10 @@ class Logging(object):
     def _internal_handler(self):
         """Return a StreamHandler for internal logging.
 
-        :returns: logging.StreamHandler
+        :returns: logging.MemoryHandler
 
         """
-        return logging.StreamHandler(stream=self._stream)
+        return logging.handlers.MemoryHandler(_CAPACITY)
 
     def _new_handler(self, class_handle, arguments):
         """Return an instance of the specified handler.
@@ -208,16 +221,21 @@ class Logging(object):
             return logging._handlers[name]
 
         handler = class_handle(**arguments)
-        handler.set_name(name)
+        self._set_handler_name(handler, name)
         return handler
 
-    def _new_stream(self):
-        """Return a new stream object.
+    def _set_handler_name(self, handler, name):
+        """Set the handler name for the specified handler.
 
-        :return: ob.BytesIO
+        :param logging.Handler handler: The handler
+        :param str name: The handler name
+        :return: str
 
         """
-        return io.BytesIO()
+        try:
+            handler.set_name(name)
+        except AttributeError:
+            Logging._HANDLERS[handler] = name
 
     def _setup_filters(self, filters):
         """Iterate through the filters configuration and create a new
@@ -335,7 +353,7 @@ class Logging(object):
             level = loggers[logger].get(_LEVEL, logging.INFO)
             self._logger.debug('Fetching %s and setting to %s', logger, level)
             logger_obj = self._get_logger(logger)
-            logger_obj.setLevel(level)
+            logger_obj.setLevel(self._get_level(level))
             logger_obj.propagate = loggers[logger].get(_PROPAGATE, True)
             out.append(logger_obj)
         return out

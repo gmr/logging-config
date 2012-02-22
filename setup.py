@@ -6,7 +6,7 @@ def read(fname):
 
 
 setup(name='logging-config',
-      version='1.0.0',
+      version='1.0.1',
       description="A wrapper class for the Python standard logging module",
       long_description=read('README.md'),
       author="Gavin M. Roy",
@@ -14,6 +14,7 @@ setup(name='logging-config',
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
+          'Programming Language :: Python :: 2.5',
           'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Topic :: Software Development :: Libraries',
