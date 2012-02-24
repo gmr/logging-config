@@ -1,14 +1,13 @@
-import os
 from setuptools import setup
-
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
+long_desc = """\
+A configuration wrapper class for the standard Python logging package. Since
+DictConfigurator is not available until 2.7 and I still need to support 2.6,
+I wanted a consistent way to handle configuration of application logging."""
 
 setup(name='logging-config',
-      version='1.0.1',
+      version='1.0.2',
       description="A wrapper class for the Python standard logging module",
-      long_description=read('README.md'),
+      long_description=long_desc,
       author="Gavin M. Roy",
       author_email="gmr@myyearbook.com",
       classifiers=[

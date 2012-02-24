@@ -21,7 +21,7 @@ Example configuration YAML definition object:
 __author__ = 'Gavin M. Roy'
 __email__ = 'gmr@myyearbook.com'
 __date__ = '2012-01-20'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 import logging
 from logging.handlers import SysLogHandler
