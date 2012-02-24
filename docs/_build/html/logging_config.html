@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>logging_config Module &mdash; logging-config 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="logging-config 1.0.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">logging-config 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-logging_config">
+<span id="logging-config-module"></span><h1>logging_config Module<a class="headerlink" href="#module-logging_config" title="Permalink to this headline">¶</a></h1>
+<p>Setup the logging options</p>
+<p>Example configuration YAML definition object:</p>
+<dl class="docutils">
+<dt>{ &#8216;filters&#8217;: None,</dt>
+<dd><dl class="first last docutils">
+<dt>&#8216;formatters&#8217;: { &#8216;syslog&#8217;: &#8216;%(levelname)s &lt;PID %(process)d:%(processName)s&gt; %(name).%(funcName)s: %(message)s&#8217;,</dt>
+<dd>&#8216;verbose&#8217;: &#8216;%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -25s: %(message)s&#8217;},</dd>
+<dt>&#8216;handlers&#8217;: { &#8216;console&#8217;: { &#8216;class&#8217;: &#8216;logging.StreamHandler&#8217;,</dt>
+<dd><blockquote class="first">
+<div>&#8216;debug_only&#8217;: True,
+&#8216;formatter&#8217;: &#8216;verbose&#8217;,
+&#8216;level&#8217;: &#8216;DEBUG&#8217;},</div></blockquote>
+<dl class="last docutils">
+<dt>&#8216;syslog&#8217;: { &#8216;address&#8217;: &#8216;/var/run/syslog&#8217;,</dt>
+<dd>&#8216;class&#8217;: &#8216;logging.handlers.SysLogHandler&#8217;,
+&#8216;facility&#8217;: &#8216;local6&#8217;,
+&#8216;formatter&#8217;: &#8216;syslog&#8217;,
+&#8216;level&#8217;: &#8216;INFO&#8217;}},</dd>
+</dl>
+</dd>
+<dt>&#8216;loggers&#8217;: { &#8216;logging_config&#8217;: { &#8216;level&#8217;: &#8216;INFO&#8217;, &#8216;propagate&#8217;: True},</dt>
+<dd>&#8216;psycopg2&#8217;: { &#8216;level&#8217;: &#8216;INFO&#8217;, &#8216;propagate&#8217;: True}}}</dd>
+</dl>
+</dd>
+</dl>
+<dl class="class">
+<dt id="logging_config.Logging">
+<em class="property">class </em><tt class="descclassname">logging_config.</tt><tt class="descname">Logging</tt><big>(</big><em>config</em>, <em>debug=False</em><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Setup and configure logging for the application allowing flexible output
+and better use of the logging module in Python. Closely resembles the
+logging.config.DictConfig functionality in Python 2.7.</p>
+<dl class="method">
+<dt id="logging_config.Logging.remove_existing_loggers">
+<tt class="descname">remove_existing_loggers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.remove_existing_loggers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.remove_existing_loggers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the existing loggers from the logging module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="logging_config.Logging.remove_root_logger">
+<tt class="descname">remove_root_logger</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.remove_root_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.remove_root_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the root logger handlers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="logging_config.Logging.setup">
+<tt class="descname">setup</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup the loggers per the configuration that was passed in when
+the object was created.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="logging_config.import_class">
+<tt class="descclassname">logging_config.</tt><tt class="descname">import_class</tt><big>(</big><em>module_class</em><big>)</big><a class="reference internal" href="_modules/logging_config.html#import_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.import_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the package for the given module and class string and return the
+handle to the class in the module for creating new instances of the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module_class</strong> (<em>str</em>) &#8211; The module and class in foo.bar.baz.Class format</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/logging_config.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">logging-config 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Gavin M. Roy.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

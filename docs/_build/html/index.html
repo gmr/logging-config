@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>logging-config &mdash; logging-config 1.0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="logging-config 1.0.2 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">logging-config 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="logging-config">
+<h1>logging-config<a class="headerlink" href="#logging-config" title="Permalink to this headline">¶</a></h1>
+<p>A configuration wrapper class for the standard Python logging package. Since
+DictConfigurator is not available until 2.7 and I still need to support 2.6,
+I wanted a consistent way to handle configuration of application logging.</p>
+<p>Currently, this module passes tests in Python 2.5, 2.6 and 2.7.</p>
+<p>I&#8217;ve attempted to match the configuration dictionary schema as much as it makes
+sense to do so.  For more information on the configuration dictionary schema
+check out <a class="reference external" href="http://docs.python.org/library/logging.config.html#logging-config-dictschema">http://docs.python.org/library/logging.config.html#logging-config-dictschema</a></p>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="logging_config.Logging">
+<em class="property">class </em><tt class="descclassname">logging_config.</tt><tt class="descname">Logging</tt><big>(</big><em>config</em>, <em>debug=False</em><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Setup and configure logging for the application allowing flexible output
+and better use of the logging module in Python. Closely resembles the
+logging.config.DictConfig functionality in Python 2.7.</p>
+<dl class="method">
+<dt id="logging_config.Logging.remove_existing_loggers">
+<tt class="descname">remove_existing_loggers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.remove_existing_loggers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.remove_existing_loggers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the existing loggers from the logging module.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="logging_config.Logging.remove_root_logger">
+<tt class="descname">remove_root_logger</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.remove_root_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.remove_root_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the root logger handlers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="logging_config.Logging.setup">
+<tt class="descname">setup</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/logging_config.html#Logging.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#logging_config.Logging.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup the loggers per the configuration that was passed in when
+the object was created.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="example-use">
+<h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
+<p>The following example creates multiple handlers, with the console handler only
+being created if debug=True were to be passed into the Logging constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;loggers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;pika&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;propagate&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;INFO&#39;</span><span class="p">},</span>
+                      <span class="s">&#39;tinman&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;propagate&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">}},</span>
+         <span class="s">&#39;formatters&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;syslog&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%(levelname)s</span><span class="s"> &lt;PID </span><span class="si">%(process)d</span><span class="s">:</span><span class="si">%(processName)s</span><span class="s">&gt; &#39;</span>
+                                   <span class="s">&#39;%(name).</span><span class="si">%(funcName)s</span><span class="s">: </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">),</span>
+                        <span class="s">&#39;verbose&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%(levelname) -10s</span><span class="s"> </span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(name) -30s</span><span class="s"> &#39;</span>
+                                    <span class="s">&#39;</span><span class="si">%(funcName) -25s</span><span class="s">: </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">)},</span>
+         <span class="s">&#39;filters&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;myapp&#39;</span><span class="p">:</span> <span class="s">&#39;myapp.*&#39;</span><span class="p">},</span>
+         <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;syslog&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;facility&#39;</span><span class="p">:</span> <span class="s">&#39;local6&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;INFO&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;filters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;myapp&#39;</span><span class="p">],</span>
+                                 <span class="s">&#39;formatter&#39;</span><span class="p">:</span> <span class="s">&#39;syslog&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;class&#39;</span><span class="p">:</span> <span class="s">&#39;logging.handlers.SysLogHandler&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;address&#39;</span><span class="p">:</span> <span class="s">&#39;/var/run/syslog&#39;</span><span class="p">},</span>
+                      <span class="s">&#39;console&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;formatter&#39;</span><span class="p">:</span> <span class="s">&#39;verbose&#39;</span><span class="p">,</span>
+                                  <span class="s">&#39;debug_only&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                                  <span class="s">&#39;class&#39;</span><span class="p">:</span> <span class="s">&#39;logging.StreamHandler&#39;</span><span class="p">,</span>
+                                  <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">}}}</span>
+
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">logging_config</span><span class="o">.</span><span class="n">Logging</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">logging-config</a><ul>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+<li><a class="reference internal" href="#example-use">Example Use</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">logging-config 1.0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Gavin M. Roy.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

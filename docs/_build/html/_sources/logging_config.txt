@@ -1,0 +1,7 @@
+logging_config Module
+=====================
+
+.. automodule:: logging_config
+    :members:
+    :undoc-members:
+    :show-inheritance:

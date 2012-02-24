@@ -6,5 +6,3 @@ dist
 tests/cover
 .coverage
 .DS_Store
-docs/_build
-docs/_static
