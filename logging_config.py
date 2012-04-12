@@ -1,27 +1,27 @@
 """Setup the logging options
 
-Example configuration YAML definition object:
+Example configuration JSON definition object:
 
-{ 'filters': None,
-  'formatters': { 'syslog': '%(levelname)s <PID %(process)d:%(processName)s> %(name).%(funcName)s: %(message)s',
-                  'verbose': '%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -25s: %(message)s'},
-  'handlers': { 'console': { 'class': 'logging.StreamHandler',
-                             'debug_only': True,
-                             'formatter': 'verbose',
-                             'level': 'DEBUG'},
-                'syslog': { 'address': '/var/run/syslog',
-                            'class': 'logging.handlers.SysLogHandler',
-                            'facility': 'local6',
-                            'formatter': 'syslog',
-                            'level': 'INFO'}},
-  'loggers': { 'logging_config': { 'level': 'INFO', 'propagate': True},
-               'psycopg2': { 'level': 'INFO', 'propagate': True}}}
+{ "filters": null,
+  "formatters": { "syslog": "%(levelname)s <PID %(process)d:%(processName)s> %(name).%(funcName)s: %(message)s",
+                  "verbose": "%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -25s: %(message)s"},
+  "handlers": { "console": { "class": "logging.StreamHandler",
+                             "debug_only": true,
+                             "formatter": "verbose",
+                             "level": "DEBUG"},
+                "syslog": { "address": "/var/run/syslog",
+                            "class": "logging.handlers.SysLogHandler",
+                            "facility": "local6",
+                            "formatter": "syslog",
+                            "level": "INFO"}},
+  "loggers": { "logging_config": { "level": "INFO", "propagate": true},
+               "psycopg2": { "level": "INFO", "propagate": true}}}
 
 """
 __author__ = 'Gavin M. Roy'
 __email__ = 'gmr@myyearbook.com'
 __date__ = '2012-01-20'
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 
 import logging
 from logging.handlers import SysLogHandler
@@ -99,8 +99,13 @@ class Logging(object):
         handler_names = self._get_handler_names(logger)
         if self._get_handler_name(handler) not in handler_names:
             logger.addHandler(handler)
+
+        # If it's coming in as DEBUG vs 10, etc
+        if isinstance(level, basestring):
+            level = self._get_level(level)
+
         if isinstance(logger, logging.Logger) and level:
-            logger.setLevel(self._get_level(level))
+            logger.setLevel(level)
 
     def _build_arguments(self, config):
         """For the given config dictionary, build out the arguments that will
@@ -182,8 +187,12 @@ class Logging(object):
         :returns: int
 
         """
-        self._logger.debug('Fetching constant mapping for %s', level_name)
-        return logging._levelNames[level_name]
+        try:
+            name = level_name.upper().strip()
+        except AttributeError:
+            return level_name
+        self._logger.debug('Fetching constant mapping for %s', name)
+        return logging._levelNames[name]
 
     def _get_logger_name(self, class_handle, arguments):
         """Get a logger name for when we are creating a logger.
@@ -308,6 +317,9 @@ class Logging(object):
 
             # Create a new instance of the Handler
             handler = self._new_handler(class_handle, arguments)
+
+            # Set the handler level
+            handler.level = level
 
             # Set the formatter for the handler if specified
             if _FORMATTER in handlers[handler_name]:
