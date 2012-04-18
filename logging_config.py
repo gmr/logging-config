@@ -21,7 +21,7 @@ Example configuration JSON definition object:
 __author__ = 'Gavin M. Roy'
 __email__ = 'gmr@myyearbook.com'
 __date__ = '2012-01-20'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 
 import logging
 from logging.handlers import SysLogHandler
@@ -72,7 +72,7 @@ class Logging(object):
         """Create a new instance of the logging object.
 
         :param dict config: The configuration data
-        :param dict debug: Flag to specify app is in debug mode
+        :param bool debug: Flag to specify app is in debug mode
 
         """
         # Default values

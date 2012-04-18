@@ -5,7 +5,7 @@ DictConfigurator is not available until 2.7 and I still need to support 2.6,
 I wanted a consistent way to handle configuration of application logging."""
 
 setup(name='logging-config',
-      version='1.0.3',
+      version='1.0.4',
       description="A wrapper class for the Python standard logging module",
       long_description=long_desc,
       author="Gavin M. Roy",
