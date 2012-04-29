@@ -11,6 +11,12 @@ I've attempted to match the configuration dictionary schema as much as it makes
 sense to do so.  For more information on the configuration dictionary schema
 check out http://docs.python.org/library/logging.config.html#logging-config-dictschema
 
+Installation
+------------
+logging-config is available via pypi.python.org. Thus installation is as easy as:
+
+    pip install logging-config
+
 Example Config
 --------------
 
