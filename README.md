@@ -1,6 +1,9 @@
 logging-config
 ==============
 
+*IMPORTANT* After being pointed to logutils which has a working dictConfig for earlier
+versions of Python, I do not intend on maintaining this module.
+
 A configuration wrapper class for the standard Python logging package. Since
 DictConfigurator is not available until 2.7 and I still need to support 2.6,
 I wanted a consistent way to handle configuration of application logging.
