@@ -1,6 +1,8 @@
 logging-config
 ==============
 
+:boom:**Important**:boom: This project is deprecated and no longer maintained. If you'd like to take it over, please contact me.
+
 *IMPORTANT* After being pointed to logutils which has a working dictConfig for earlier
 versions of Python, I do not intend on maintaining this module.
 
